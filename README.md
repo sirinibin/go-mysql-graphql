@@ -12,7 +12,7 @@ This is a Ready to deploy GraphQL API developed using GoLang,MySQL,Redis,JWT & O
  go mod tidy
  go run server.go
  ```
-## Set up MySQL & Redis Db credentials
+## Set up MySQL & Redis Db Credentials
    - Use the mysql schema golang_mysql_graphql.sql to create your new db
    - Update the DB server credentials of both MySQL & Redis on config/db.go & config.redis.go
 ## Run
@@ -22,7 +22,7 @@ This is a Ready to deploy GraphQL API developed using GoLang,MySQL,Redis,JWT & O
  ```
 
 
-## Playground API Documenation
+## Playground API Documentation
 
 https://graphqlbin.com/v2/wRxKsR
 
