@@ -1,0 +1,137 @@
+
+scalar Time
+scalar Email
+
+
+
+type User {
+  id: ID!
+  name: String!
+  email: Email!
+  username: String!
+  password: String!
+  created_at: Time!
+  updated_at: Time!
+}
+
+type RegisterResponse {
+  id: ID!
+  name: String!
+  email: Email!
+  username: String!
+  created_at: Time!
+  updated_at: Time!
+}
+
+type MeResponse {
+  id: ID!
+  name: String!
+  email: Email!
+  username: String!
+  created_at: Time!
+  updated_at: Time!
+}
+
+type Employee  {
+	id:ID!   
+	created_by: ID!
+	updated_by: ID!
+	name:      String!
+	email:     Email! 
+	created_at: Time!
+	updated_at: Time!
+}
+
+input CreateEmployeeRequest  {
+	name:      String!
+	email:     Email! 
+}
+
+input UpdateEmployeeRequest  {
+  id:     ID! 
+	name:   String!
+	email:  Email! 
+}
+
+
+
+
+input PageCriterias {
+  page: Int
+  size: Int
+  sort: String = "updated_at desc"
+}
+
+input FilterCriterias {
+    id: String
+  name: String
+ email: Email
+}
+
+
+type Query {
+      users: [User!]!
+         me: MeResponse!   @isAuthenticated
+  employees(page:PageCriterias,filter:FilterCriterias): [Employee!]!  @isAuthenticated
+  
+  viewEmployee(id: ID!): Employee!     @isAuthenticated
+            
+}
+
+type Mutation {
+  
+  #Register
+  register(input: RegisterRequest!): RegisterResponse!
+  
+  #OAuth2.0
+  authorize(input: AuthorizeRequest!): AuthCodeResponse!
+  accesstoken(input:AccesstokenRequest!):AccessTokenResponse!
+  refreshtoken(input:RefreshtokenRequest!):AccessTokenResponse!
+  
+  #LogOut
+  logout:String!  @isAuthenticated
+
+  #Employees
+  createEmployee(input: CreateEmployeeRequest!): Employee!  @isAuthenticated
+  updateEmployee(input: UpdateEmployeeRequest!): Employee!  @isAuthenticated
+  deleteEmployee(id: ID!): String!  @isAuthenticated
+
+}
+
+
+directive @isAuthenticated on FIELD_DEFINITION
+
+input RegisterRequest {
+  name: String!
+  email: Email!
+  username: String!
+  password: String!
+}
+
+
+
+input AuthorizeRequest {
+  username: String!
+  password: String!
+}
+
+input AccesstokenRequest {
+  auth_code: String!
+}
+
+
+type AuthCodeResponse {
+  code: String!
+  expires_at: Int!
+}
+
+type AccessTokenResponse {
+  token: String!
+  expires_at: Int!
+  refresh_token: String!
+  refresh_expires_at: Int!
+}
+
+input RefreshtokenRequest {
+  refresh_token: String!
+}
